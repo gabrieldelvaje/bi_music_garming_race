@@ -10,3 +10,13 @@ await fs.cp(path.join(root,'public'),path.join(root,'dist'),{recursive:true});
 await fs.cp(path.join(root,'src'),path.join(root,'dist'),{recursive:true});
 await fs.writeFile(path.join(root,'dist/data.json'),JSON.stringify({...data,updatedAt:new Date().toISOString(),asOf:new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date())}));
 console.log(`Built ${data.facts.length} rows.`);
+// Give each deployment its own asset URLs so browser caches cannot mix versions.
+const version=Date.now().toString(36);
+const output=path.join(root,'dist');
+let app=await fs.readFile(path.join(output,'app.mjs'),'utf8');
+app=app.replace("'./model.mjs'",`'./model.mjs?v=${version}'`).replace("'data.json'",`'data.json?v=${version}'`).replace("'report.json'",`'report.json?v=${version}'`);
+await fs.writeFile(path.join(output,'app.mjs'),app);
+let html=await fs.readFile(path.join(output,'index.html'),'utf8');
+html=html.replace('href="style.css"',`href="style.css?v=${version}"`).replace('src="app.mjs"',`src="app.mjs?v=${version}"`);
+await fs.writeFile(path.join(output,'index.html'),html);
+console.log(`Deployment version: ${version}`);
