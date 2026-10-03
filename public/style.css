@@ -7,3 +7,36 @@
   .canvas{height:100%;aspect-ratio:16 / 9}
   footer{width:calc((100dvh - 72px) * 16 / 9);max-width:none}
 }
+/* Interaction and compact, contained scrolling. */
+.nav button[aria-current=page]:hover{background:transparent}
+.person{transition:transform 160ms ease,border-radius 160ms ease;overflow:hidden}
+.person img{transition:border-radius 160ms ease}
+.person:hover{transform:scale(.88)}
+.person[aria-pressed=true],.person[aria-pressed=true] img{border-radius:25%}
+.person[aria-pressed=true]{transform:scale(.88)}
+.place{scrollbar-width:thin;scrollbar-color:#a7a7a7 transparent}
+.place::-webkit-scrollbar{width:6px;height:6px}
+.place::-webkit-scrollbar-track{background:transparent;border-radius:8px}
+.place::-webkit-scrollbar-thumb{background:#a7a7a7;border-radius:8px;border:1px solid #f0f0f0}
+.listeners,.artists,.genre{scrollbar-gutter:stable;overscroll-behavior:contain}
+.rank-table th{position:sticky;top:0;background:#f0f0f0;z-index:2}
+@media(min-width:801px){
+ .canvas:not(.deep) .listeners,.canvas:not(.deep) .artists{top:57.5%;height:19.6cqw;border-radius:.6cqw}
+ .canvas:not(.deep) .rank-table{font-size:1.35cqw;table-layout:fixed}
+ .canvas:not(.deep) .rank-table thead tr{height:2.8cqw}
+ .canvas:not(.deep) .rank-table tbody tr{height:5.6cqw}
+ .canvas:not(.deep) .rank-table th{font-size:.95cqw;font-weight:600;border-bottom:1px solid #2c856b;padding:.25cqw}
+ .canvas:not(.deep) .rank-table td{padding:.2cqw .25cqw;vertical-align:middle}
+ .canvas:not(.deep) .rank-table th:nth-child(1){width:9%}
+ .canvas:not(.deep) .rank-table th:nth-child(2){width:21%}
+ .canvas:not(.deep) .rank-table th:nth-child(3){width:37%}
+ .canvas:not(.deep) .rank-table th:nth-child(4){width:23%}
+ .canvas:not(.deep) .rank-table th:nth-child(5){width:10%}
+ .canvas:not(.deep) .rank-table .photo{width:4.5cqw;height:4.5cqw}
+ .canvas:not(.deep) .rank-table .name{font-weight:400;overflow-wrap:anywhere}
+ .canvas:not(.deep) .rank-table .number{text-align:center}
+ .canvas:not(.deep) .rank-table td:last-child{text-align:center}
+ .canvas:not(.deep) .history{top:57%;height:35.5%}
+}
+@media(max-width:800px){.nav button[aria-current=page]:hover{background:#111}.person:hover,.person[aria-pressed=true]{transform:scale(.88)}}
+@media(prefers-reduced-motion:reduce){.person,.person img{transition:none}}
