@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..');
+const data=JSON.parse(await fs.readFile(path.join(root,'data/history.json')));
+if(!data.facts.length)throw Error('No history');
+const a=new Set(data.artists.map(x=>x.id)),l=new Set(data.listeners.map(x=>x.id));
+for(const r of data.facts)if(!a.has(r.artist)||!l.has(r.listener)||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||!Number.isFinite(r.minutes)||r.minutes<0)throw Error('Invalid fact: '+JSON.stringify(r));
+await fs.mkdir(path.join(root,'dist'),{recursive:true});
+await fs.cp(path.join(root,'public'),path.join(root,'dist'),{recursive:true});
+await fs.cp(path.join(root,'src'),path.join(root,'dist'),{recursive:true});
+await fs.writeFile(path.join(root,'dist/data.json'),JSON.stringify({...data,updatedAt:new Date().toISOString(),asOf:new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo'}).format(new Date())}));
+console.log(`Built ${data.facts.length} rows.`);
