@@ -93,3 +93,21 @@
  .deep .week-filter,.deep .genre-filter,.deep .artist-filter{border-radius:2.5cqw 2.5cqw 0 0}
  .deep .listeners tbody tr:last-child td{border-bottom:0}
 }
+/* Artist search lives inside the expandable filter. */
+.deep .artist-filter{overflow:visible;z-index:12}
+.deep .artist-filter .filter-head>span{flex:none;font-size:1.25cqw}
+.artist-picker{position:relative;flex:1;min-width:0}
+.artist-picker summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;border-bottom:1px solid #999;padding:.3cqw;font-size:1.05cqw}
+.artist-picker summary::-webkit-details-marker{display:none}
+.artist-menu{position:absolute;top:100%;right:0;left:0;min-width:210px;z-index:30;background:#f0f0f0;border:1px solid #bcbcbc;border-radius:8px;box-shadow:0 8px 25px #0003;padding:8px}
+.artist-menu .artist-search{margin:0;padding:4px;gap:8px;border-bottom:1px solid #ccc}
+.artist-menu .artist-search input{border:0;outline-offset:0}
+.artist-options{max-height:240px;overflow:auto;scrollbar-width:thin;scrollbar-color:#aaa transparent;padding-top:4px}
+.artist-options button{display:block;width:100%;border:0;background:transparent;text-align:left;padding:8px;border-radius:5px;font-size:14px;color:#222}
+.artist-options button:hover,.artist-options button[aria-pressed=true]{background:#d4e6de}
+.search-empty{font-size:14px;padding:8px}
+@media(min-width:801px){
+ .deep .artist-filter{height:5.8%;padding:0 1.5cqw;background:#d5d5d5;display:flex;align-items:center}
+ .deep .artists{top:calc(60.6% - 22.4cqw);height:calc(42cqw + 2px)}
+}
+@media(max-width:800px){.deep .artist-filter .filter-head>span,.artist-picker summary{font-size:16px}.artist-picker summary{padding:8px}.artist-menu{min-width:200px}}
