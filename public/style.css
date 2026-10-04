@@ -47,3 +47,49 @@
  .canvas:not(.deep) .listeners{height:calc(19.6cqw + 2px)}
  .canvas:not(.deep) .genre{top:16%;width:19.4%;height:27%;overflow-x:hidden}
 }
+/* Match Deep Dive typography, portraits and row rhythm to the weekly views. */
+.deep .filter-head{display:flex;align-items:center;gap:1cqw;width:100%}
+.deep .week-filter,.deep .genre-filter{display:flex;align-items:center;gap:1cqw}
+.deep .week-filter label,.deep .genre-filter label,.deep .artist-filter label{flex:none;font-size:1.25cqw}
+.deep .week-filter select,.deep .genre-filter select,.deep .artist-filter select{min-width:0;flex:1}
+.artist-search{display:flex;align-items:center;gap:.5cqw;margin-top:.55cqw;padding-left:5.5cqw}
+.artist-search button{display:grid;place-items:center;border:0;background:transparent;border-radius:50%;padding:.4cqw;color:#333}
+.artist-search button:hover{background:#d5e1dc}
+.artist-search input{min-width:0;width:100%;font-size:1cqw;border:0;border-bottom:1px solid #999;background:transparent;padding:.25cqw}
+@media(min-width:801px){
+ .deep .week-filter{left:2.65%;top:14.2%;width:25.6%;height:5.8%;padding:0 1.5cqw;background:#d5d5d5}
+ .deep .genre-filter{left:30.65%;top:14.2%;width:27.3%;height:5.8%;padding:0 1.5cqw;background:#d5d5d5}
+ .deep .artist-filter{left:60.6%;top:14.2%;width:36.6%;height:12.5%;padding:.55cqw 1.5cqw 0;overflow:hidden;background:linear-gradient(#d5d5d5 0 46%,#f0f0f0 46%)}
+ .deep .filter-head{height:2.1cqw}
+ .deep .artists{top:27.2%;height:66.5%;border-radius:.6cqw}
+ .deep .listeners{top:60.6%;height:calc(19.6cqw + 2px);overflow:clip;scrollbar-gutter:auto}
+ .deep .rank-table{font-size:1.2cqw;table-layout:fixed}
+ .deep .rank-table thead tr{height:2.8cqw}
+ .deep .rank-table tbody tr{height:5.6cqw}
+ .deep .rank-table th{font-size:.85cqw;font-weight:600;border-bottom:1px solid #2c856b;padding:.2cqw;white-space:normal}
+ .deep .rank-table td{padding:.2cqw;vertical-align:middle;overflow-wrap:anywhere}
+ .deep .rank-table .photo{width:4.5cqw;height:4.5cqw}
+ .deep .rank-table .name{font-weight:400}
+ .deep .rank-table .number{text-align:center}
+ .deep .rank-table th:nth-child(1){width:6%}
+ .deep .rank-table th:nth-child(2){width:15%}
+ .deep .rank-table th:nth-child(3){width:27%}
+ .deep .artists .rank-table th:nth-child(4){width:20%}
+ .deep .artists .rank-table th:nth-child(5),.deep .artists .rank-table th:nth-child(6){width:16%}
+ .deep .listeners .rank-table th:nth-child(2){width:11%}
+ .deep .listeners .rank-table th:nth-child(3){width:17%}
+ .deep .listeners .rank-table th:nth-child(4){width:15%}
+ .deep .listeners .rank-table th:nth-child(5){width:11%}
+ .deep .listeners .rank-table th:nth-child(6){width:25%}
+ .deep .listeners .rank-table th:nth-child(7){width:15%}
+ .deep .genre{top:20.5%;height:27%;width:25%;}
+}
+@media(max-width:800px){
+ .deep .week-filter label,.deep .genre-filter label,.deep .artist-filter label{font-size:16px}
+ .deep .filter-head{gap:12px}.artist-search{padding-left:0;gap:8px;margin-top:8px}
+ .artist-search button{padding:8px}.artist-search input{font-size:16px;padding:8px}
+}
+@media(min-width:801px){
+ .deep .week-filter,.deep .genre-filter,.deep .artist-filter{border-radius:2.5cqw 2.5cqw 0 0}
+ .deep .listeners tbody tr:last-child td{border-bottom:0}
+}
