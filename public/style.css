@@ -45,5 +45,5 @@
 .canvas:not(.deep) .listeners{overflow:clip;scrollbar-gutter:auto}
 @media(min-width:801px){
  .canvas:not(.deep) .listeners{height:calc(19.6cqw + 2px)}
- .this .genre{top:16%;width:19.4%;height:25%;overflow-x:hidden}
+ .this .genre{top:16%;width:19.4%;height:27%;overflow-x:hidden}
 }

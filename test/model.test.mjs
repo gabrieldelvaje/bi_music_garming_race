@@ -6,3 +6,11 @@ test('inclusive random boundaries match Apps Script',()=>{const low=generateDay(
 test('local date and Monday use yesterday as in Power BI',()=>{assert.equal(saoPauloToday(new Date('2026-10-03T02:59:59Z')),'2026-10-02');assert.equal(saoPauloToday(new Date('2026-10-03T03:00:00Z')),'2026-10-03');assert.deepEqual(period('2026-10-05'),['2026-09-28','2026-10-04']);assert.deepEqual(period('2026-10-06'),['2026-10-05','2026-10-11']);assert.equal(monday('2027-01-01'),'2026-12-28');});
 test('dense ranks, ties and weekly wins',()=>{const items=[{id:1,name:'A'},{id:2,name:'B'},{id:3,name:'C'}],rows=[{date:'2026-10-01',listener:1,minutes:10},{date:'2026-10-01',listener:2,minutes:10},{date:'2026-10-01',listener:3,minutes:4},{date:'2026-10-06',listener:3,minutes:20}];assert.deepEqual(ranking(rows.slice(0,3),'listener',items).map(r=>r.rank),[1,1,2]);assert.deepEqual([...wins(rows,'listener',items).values()],[1,1,1]);});
 test('imported history retains totals and all foreign keys',async()=>{const h=JSON.parse(await fs.readFile(new URL('../data/history.json',import.meta.url)));assert.ok(h.facts.length>=7952);assert.equal(h.artists.length,100);assert.equal(h.listeners.length,3);for(const r of h.facts){assert.ok(h.artists.some(a=>a.id===r.artist));assert.ok(h.listeners.some(l=>l.id===r.listener));}const last=between(h.facts,'2026-09-21','2026-09-27');assert.equal(sum(last),ranking(last,'listener',h.listeners).reduce((s,r)=>s+r.minutes,0));});
+
+test('daily update recovers missed dates and remains idempotent',async()=>{
+ const {update}=await import('../scripts/daily.mjs');const os=await import('node:os');const path=await import('node:path');
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'music-daily-'));const file=path.join(dir,'history.json');
+ try{await fs.writeFile(file,JSON.stringify({facts:[{date:'2026-10-02',listener:1,artist:1,minutes:4}],generatedDates:[]}));
+ assert.ok(await update(file,'2026-10-04')>=36);const first=await fs.readFile(file,'utf8');const history=JSON.parse(first);assert.deepEqual(history.generatedDates,['2026-10-03','2026-10-04']);assert.equal(await update(file,'2026-10-04'),0);assert.equal(await fs.readFile(file,'utf8'),first);
+ }finally{await fs.unlink(file);await fs.rmdir(dir);}
+});

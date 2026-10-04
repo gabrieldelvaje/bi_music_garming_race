@@ -4,7 +4,8 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '17 6 * * *'
+    # Hourly retries; only the first successful run of each day creates records.
+    - cron: '17 * * * *'
 permissions:
   contents: write
   pages: write
@@ -26,11 +27,12 @@ jobs:
         with:
           node-version: '22'
       - run: npm test
-      - name: Generate today's listening once (America/Sao_Paulo)
+      - name: Generate missing daily listening (America/Sao_Paulo)
+        id: daily
         if: github.event_name != 'push'
         run: npm run update
       - name: Persist the history before publishing
-        if: github.event_name != 'push'
+        if: steps.daily.outputs.changed == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -40,10 +42,14 @@ jobs:
             git push origin HEAD:main
           fi
       - run: npm run build
+        if: github.event_name != 'schedule' || steps.daily.outputs.changed == 'true'
       - uses: actions/configure-pages@v5
+        if: github.event_name != 'schedule' || steps.daily.outputs.changed == 'true'
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'schedule' || steps.daily.outputs.changed == 'true'
         with:
           path: dist
       - name: Publish
+        if: github.event_name != 'schedule' || steps.daily.outputs.changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v4

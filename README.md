@@ -18,12 +18,12 @@ Abra http://127.0.0.1:4173. A pasta publicada é `dist/`.
 
 Importação inicial de 02/10/2026: **7.952 registros, 100 artistas e 3 ouvintes**, preservados em `data/history.json`. Os CSVs originais ficam em `data/` para auditoria.
 
-O workflow `.github/workflows/pages.yml` executa às **03h17 de São Paulo (06h17 UTC)**. Também pode ser iniciado em Actions → Daily listening and GitHub Pages → Run workflow.
+O workflow `.github/workflows/pages.yml` verifica a atualização **a cada hora, no minuto 17**, para tolerar atrasos do agendador. Apenas a primeira execução bem-sucedida de cada dia gera registros. Também pode ser iniciado em Actions → Daily listening and GitHub Pages → Run workflow.
 
 - Gera 6 rodadas, 1–6 registros por ouvinte por rodada e 1–15 minutos por registro, usando as mesmas listas de artistas do Apps Script.
 - Usa `America/Sao_Paulo` e datas com ano completo.
 - Uma data já importada ou gerada não é sorteada novamente.
-- Gera apenas o dia da execução, como o script original; dias de eventual pausa não são preenchidos retroativamente.
+- Recupera automaticamente dias inteiros ausentes após a última data do histórico, mantendo um único sorteio por dia.
 - Salva o histórico em um commit antes de publicar. Se a publicação falhar, repetir a execução não duplica dados.
 - Não consulta nem altera as planilhas após a importação. O gatilho antigo do Apps Script pode ser desativado no Google; se continuar ativo, modifica apenas as planilhas antigas, sem interferir neste site.
 
@@ -62,3 +62,5 @@ Os visuais são reimplementações em HTML/CSS/SVG, sem incorporar o Power BI. A
 ## Testes
 
 `npm test` confere os limites do sorteio, repetição de datas, fuso, viradas de semana e ano, empates, vitórias e integridade do histórico. A prévia foi conferida em navegador desktop e mobile, com as três abas e filtros de semana, gênero, artista e ouvinte.
+
+Correção de 04/10/2026: recuperados 57 registros faltantes de 02/10 da fonte original (66 registros, 511 minutos no total). O dia 03/10 mantém o sorteio próprio do GitHub (69 registros, 593 minutos). A data de referência acompanha São Paulo, e abas abertas consultam atualizações a cada cinco minutos.
